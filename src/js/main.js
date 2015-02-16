@@ -16,6 +16,11 @@ $(document).ready(function(){
     }
         
         
+    if($('.portfolio-container').length){
+        $container = $('.portfolio-container');
+        $container.find('.devices .slider').portfolioSlider();
+        
+    }
     
     if($('.contact-container').length){
         $container = $('.contact-container');

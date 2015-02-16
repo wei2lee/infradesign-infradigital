@@ -3,53 +3,117 @@
 <style>
 .item { height:500px; }
 #myCarousel { background-color:gray;}
+
+.slider {
+    position:relative;   
+}
+.slider > div {
+    position:absolute;
+    left:0;
+    top:0;
+    float:left; 
+}
+    
+.slider > div.animating {
+ -webkit-transition: -webkit-transform 0.3s ease-out; /* Changed here */ 
+     -moz-transition: -moz-transform 0.3s ease-out;
+       -o-transition: -o-transform 0.3s ease-out;
+          transition: transform 0.3s ease-out;
+}
+
+    
 </style>
 <link rel="stylesheet" href="js/bower_components/bootstrap/dist/css/bootstrap.css">
-<!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-        <li data-target="#myCarousel" data-slide-to="4"></li>
-        <li data-target="#myCarousel" data-slide-to="5"></li>
-      </ol>
-      <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src='images/portfolio_infradigital_portfolio1.jpg'>
-        </div>
-        <div class="item active">
-            <img src='images/portfolio_infradigital_portfolio2.jpg'>
-        </div>
-        <div class="item active">
-            <img src='images/portfolio_infradigital_portfolio3.jpg'>
-        </div>
-        <div class="item active">
-            <img src='images/portfolio_infradigital_portfolio4.jpg'>
-        </div>
-        <div class="item active">
-            <img src='images/portfolio_infradigital_portfolio5.jpg'>
-        </div>
-        <div class="item active">
-            <img src='images/portfolio_infradigital_portfolio6.jpg'>
-        </div>
-      </div>
-      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div><!-- /.carousel -->
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>
-        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
-    </script>
+
+<div class='slider clearfix'>
+    <div data-id='1' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio1.jpg'>
+    </div>
+    <div data-id='2' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio2.jpg'>
+    </div>
+    <div data-id='3' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio3.jpg'>
+    </div>
+    <div data-id='4' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio4.jpg'>
+    </div>
+    <div data-id='5' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio5.jpg'>
+    </div>
+    <div data-id='6' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio6.jpg'>
+    </div>
+    <div data-id='7' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio7.jpg'>
+    </div>
+    <div data-id='8' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio8.jpg'>
+    </div>
+    <div data-id='9' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio9.jpg'>
+    </div>
+    <div data-id='10' d='0'>
+        <img width=200 height=auto src='images/portfolio_infradigital_portfolio10.jpg'>
+    </div>
+</div>
+
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+</script>
+
+<script src="js/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="js/carousel.js"></script>
+<script>
     
-    <script src="js/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+$(document).ready(function(){
+    var count = $('.slider>div').length;
+    function updateD(){
+        $('.slider>div').each(function(j){
+            var d = $(this).attr('d');
+            var tf = 'translateX('+(d*100)+'%)';
+            $(this).css('transform', tf);
+        });
+    }
+
+    
+    $('.slider>div').each(function(j){
+        var d = j;
+        $(this).attr('d', d);
+    });
+    updateD();
+    
+    
+    setInterval(function(){
+        $('.slider>div').each(function(j){
+            $(this).addClass('animating');
+            var d = parseInt($(this).attr('d'));
+            d--;
+            $(this).attr('d', d);
+        });
+        updateD();
+        
+        
+        setTimeout(function(){
+            $slides = $('.slider>div');
+            
+            $slides.each(function(j){
+                var d = parseInt($(this).attr('d'));
+                if(d+j<0){
+                    d += count;
+                    $(this).attr('d', d);
+                    $(this).removeClass('animating');
+                    $(this).appendTo($('.slider'));
+                }
+            });
+            updateD();
+        },350);
+    }, 500);
+});
+
+</script>
